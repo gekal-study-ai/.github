@@ -1,0 +1,42 @@
+# Node.js関連
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Python関連
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+.env
+venv/
+ENV/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# 訓練データ・モデル
+*.h5
+*.pkl
+*.model
+data/
+models/
+
+# ログファイル
+logs/
+*.log
+
+# エディタ設定
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# キャッシュファイル
+.cache/

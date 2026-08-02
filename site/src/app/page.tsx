@@ -1,4 +1,18 @@
-import Link from "next/link";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Chip from "@mui/material/Chip";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+
+import PhaseList from "@/components/PhaseList";
+import SectionHeading from "@/components/SectionHeading";
 import {
   phases,
   principles,
@@ -7,125 +21,180 @@ import {
   statusLabel,
   strengths,
   weaknesses,
+  type RepoStatus,
 } from "@/content/data";
+import { fontMono } from "@/theme";
+
+const chipColor: Record<RepoStatus, "success" | "warning" | "default"> = {
+  active: "success",
+  paused: "warning",
+  hub: "default",
+  planned: "default",
+};
 
 export default function Home() {
   return (
-    <div className="wrap">
-      <section className="hero">
-        <h1>AI を、動かしながら学ぶ。</h1>
-        <p className="lead">
+    <Container>
+      <Box component="section" sx={{ pt: 9, pb: 1 }}>
+        <Typography variant="h1" component="h1" gutterBottom>
+          AI を、動かしながら学ぶ。
+        </Typography>
+        <Typography sx={{ color: "text.secondary", maxWidth: "68ch", fontSize: "1.05rem" }}>
           {site.org} は AI
           を学ぶために作った実験リポジトリ群です。まず動かす、制約を測る、わかったことを残す。
           このサイトは、その現在地とこれから進む道筋をまとめたものです。
-        </p>
-        <div className="heroMeta">
-          <Link href="/roadmap/" className="btn primary">
+        </Typography>
+
+        <Stack direction="row" sx={{ gap: 1.5, flexWrap: "wrap", mt: 3.5 }}>
+          <Button
+            href="/roadmap/"
+            variant="contained"
+            endIcon={<ArrowForwardIcon />}
+          >
             ロードマップを見る
-          </Link>
-          <a href={site.orgUrl} className="btn">
+          </Button>
+          <Button
+            href={site.orgUrl}
+            variant="outlined"
+            color="inherit"
+            endIcon={<OpenInNewIcon />}
+          >
             GitHub Organization
-          </a>
-        </div>
-      </section>
+          </Button>
+        </Stack>
+      </Box>
 
-      <section className="section">
-        <div className="sectionHead">
-          <h2>リポジトリ</h2>
-          <span className="note">1 テーマ 1 リポジトリ</span>
-        </div>
-        <div className="repoGrid">
+      <Box component="section" sx={{ mt: 9 }}>
+        <SectionHeading title="リポジトリ" note="1 テーマ 1 リポジトリ" />
+        <Grid container spacing={2}>
           {repos.map((repo) => (
-            <article key={repo.name} className="repoCard">
-              <div className="top">
-                <h3>
-                  {repo.url ? <a href={repo.url}>{repo.name}</a> : repo.name}
-                </h3>
-                <span
-                  className={
-                    repo.status === "active"
-                      ? "tag active"
-                      : repo.status === "paused"
-                        ? "tag paused"
-                        : "tag"
-                  }
+            <Grid key={repo.name} size={{ xs: 12, sm: 6, md: 4 }}>
+              <Card sx={{ height: "100%" }}>
+                <CardContent
+                  sx={{ height: "100%", display: "flex", flexDirection: "column", gap: 1.5, p: 2.75 }}
                 >
-                  {statusLabel[repo.status]}
-                </span>
-              </div>
-              <div className="theme">{repo.theme}</div>
-              <p className="desc">{repo.description}</p>
-              <p className="learned">
-                <b>得たもの</b>
-                <br />
-                {repo.learned}
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
+                  <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", gap: 1.25 }}>
+                    <Typography
+                      variant="h3"
+                      component="h3"
+                      sx={{ fontFamily: fontMono, fontSize: "0.95rem", wordBreak: "break-all" }}
+                    >
+                      {repo.url ? <Link href={repo.url}>{repo.name}</Link> : repo.name}
+                    </Typography>
+                    <Chip
+                      label={statusLabel[repo.status]}
+                      size="small"
+                      variant="outlined"
+                      color={chipColor[repo.status]}
+                    />
+                  </Stack>
 
-      <section className="section">
-        <div className="sectionHead">
-          <h2>現在地</h2>
-          <span className="note">{site.updatedAt} 時点</span>
-        </div>
-        <div className="twoCol">
-          <div>
-            <div className="colTitle">できていること</div>
-            <ul className="plainList">
+                  <Typography variant="body2" sx={{ color: "text.secondary", fontSize: "0.8rem" }}>
+                    {repo.theme}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                    {repo.description}
+                  </Typography>
+
+                  <Box
+                    sx={{
+                      mt: "auto",
+                      pt: 1.5,
+                      borderTop: "1px dashed",
+                      borderColor: "divider",
+                      color: "text.secondary",
+                    }}
+                  >
+                    <Typography variant="overline" component="div" sx={{ fontSize: "0.7rem" }}>
+                      得たもの
+                    </Typography>
+                    <Typography variant="body2" sx={{ fontSize: "0.82rem" }}>
+                      {repo.learned}
+                    </Typography>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+
+      <Box component="section" sx={{ mt: 9 }}>
+        <SectionHeading title="現在地" note={`${site.updatedAt} 時点`} />
+        <Grid container spacing={4}>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <Typography variant="overline" component="div" sx={{ color: "text.secondary", mb: 2 }}>
+              できていること
+            </Typography>
+            <Stack component="ul" sx={{ gap: 1.75, listStyle: "none", m: 0, p: 0 }}>
               {strengths.map((item) => (
-                <li key={item}>{item}</li>
+                <Stack key={item} component="li" direction="row" sx={{ gap: 1.25 }}>
+                  <Box
+                    sx={{
+                      mt: "0.75em",
+                      width: 6,
+                      height: 6,
+                      borderRadius: "50%",
+                      bgcolor: "divider",
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                    {item}
+                  </Typography>
+                </Stack>
               ))}
-            </ul>
-          </div>
-          <div>
-            <div className="colTitle">埋めるべき穴</div>
-            {weaknesses.map((item) => (
-              <div key={item.title} className="gapItem">
-                <strong>{item.title}</strong>
-                <span>{item.body}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </Stack>
+          </Grid>
 
-      <section className="section">
-        <div className="sectionHead">
-          <h2>進め方</h2>
-        </div>
-        <div className="principleGrid">
+          <Grid size={{ xs: 12, md: 6 }}>
+            <Typography variant="overline" component="div" sx={{ color: "text.secondary", mb: 2 }}>
+              埋めるべき穴
+            </Typography>
+            <Stack sx={{ gap: 2.5 }}>
+              {weaknesses.map((item) => (
+                <Box
+                  key={item.title}
+                  sx={{ borderLeft: 2, borderColor: "warning.main", pl: 2, py: 0.25 }}
+                >
+                  <Typography sx={{ fontWeight: 650, fontSize: "0.95rem" }}>
+                    {item.title}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                    {item.body}
+                  </Typography>
+                </Box>
+              ))}
+            </Stack>
+          </Grid>
+        </Grid>
+      </Box>
+
+      <Box component="section" sx={{ mt: 9 }}>
+        <SectionHeading title="進め方" />
+        <Grid container spacing={3}>
           {principles.map((p, i) => (
-            <div key={p.title} className="principle">
-              <span className="num">0{i + 1}</span>
-              <h3>{p.title}</h3>
-              <p>{p.body}</p>
-            </div>
+            <Grid key={p.title} size={{ xs: 12, sm: 4 }}>
+              <Typography
+                sx={{ fontFamily: fontMono, fontSize: "0.8rem", color: "primary.main", mb: 1 }}
+              >
+                0{i + 1}
+              </Typography>
+              <Typography variant="h3" component="h3" sx={{ fontSize: "1rem", mb: 1 }}>
+                {p.title}
+              </Typography>
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                {p.body}
+              </Typography>
+            </Grid>
           ))}
-        </div>
-      </section>
+        </Grid>
+      </Box>
 
-      <section className="section">
-        <div className="sectionHead">
-          <h2>ロードマップ</h2>
-          <span className="note">時期は目安。完了条件を満たしたら次へ</span>
-        </div>
-        <ul className="phaseList">
-          {phases.map((phase) => (
-            <li key={phase.id}>
-              <Link href={`/roadmap/#phase-${phase.id}`} className="phaseRow">
-                <span className="idx">PHASE {phase.id}</span>
-                <span>
-                  <h3>{phase.title}</h3>
-                  <p>{phase.tagline}</p>
-                </span>
-                <span className="period">{phase.period}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
-    </div>
+      <Box component="section" sx={{ mt: 9 }}>
+        <SectionHeading title="ロードマップ" note="時期は目安。完了条件を満たしたら次へ" />
+        <PhaseList phases={phases} basePath="/roadmap/" />
+      </Box>
+    </Container>
   );
 }

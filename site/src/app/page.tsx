@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import GradientText from "@/components/GradientText";
 import PhasePipeline from "@/components/PhasePipeline";
 import SectionHeading from "@/components/SectionHeading";
+import TagRow from "@/components/TagRow";
 import {
   phases,
   principles,
@@ -46,9 +47,9 @@ export default function Home() {
         </Typography>
 
         <Typography sx={{ color: "text.secondary", maxWidth: "66ch", fontSize: "1.05rem" }}>
-          {site.org} は AI
-          を学ぶために作った実験リポジトリ群です。まず動かす、制約を測る、わかったことを残す。
-          このサイトは、その現在地とこれから進む道筋をまとめたものです。
+          画像生成・文書理解・エージェントを実際に走らせながら AI
+          を学ぶための実験リポジトリ群です。動かす、制約を測る、残す。
+          このサイトはその観測結果と、これから進む経路をまとめたものです。
         </Typography>
 
         <Stack direction="row" sx={{ gap: 1.5, flexWrap: "wrap", mt: 4 }}>
@@ -103,7 +104,7 @@ export default function Home() {
       </Box>
 
       <Box component="section" sx={{ mt: 10 }}>
-        <SectionHeading index="01" title="リポジトリ" note="1 テーマ 1 リポジトリ" />
+        <SectionHeading index="01" title="リポジトリ" note="1 テーマ 1 リポジトリ / 全 4 件" />
         <Grid container spacing={2}>
           {repos.map((repo) => (
             <Grid key={repo.name} size={{ xs: 12, sm: 6 }}>
@@ -143,6 +144,8 @@ export default function Home() {
                     {repo.description}
                   </Typography>
 
+                  <TagRow items={repo.stack} />
+
                   <Box
                     sx={{
                       mt: "auto",
@@ -152,7 +155,7 @@ export default function Home() {
                     }}
                   >
                     <Typography variant="overline" component="div" sx={{ color: "primary.main" }}>
-                      得たもの
+                      ここで得た知見
                     </Typography>
                     <Typography
                       variant="body2"
@@ -169,7 +172,7 @@ export default function Home() {
       </Box>
 
       <Box component="section" sx={{ mt: 10 }}>
-        <SectionHeading index="02" title="現在地" note={`${site.updatedAt} 時点`} />
+        <SectionHeading index="02" title="現在地" note={`自己診断 / ${site.updatedAt} 時点`} />
         <Grid container spacing={4}>
           <Grid size={{ xs: 12, md: 6 }}>
             <Typography variant="overline" component="div" sx={{ color: "success.main", mb: 2 }}>
@@ -220,7 +223,7 @@ export default function Home() {
       </Box>
 
       <Box component="section" sx={{ mt: 10 }}>
-        <SectionHeading index="03" title="進め方" />
+        <SectionHeading index="03" title="進め方" note="3 つの原則" />
         <Grid container spacing={3}>
           {principles.map((p, i) => (
             <Grid key={p.title} size={{ xs: 12, sm: 4 }}>
@@ -254,7 +257,7 @@ export default function Home() {
         <SectionHeading
           index="04"
           title="ロードマップ"
-          note="時期は目安。完了条件を満たしたら次へ"
+          note="時期は目安。完了条件を満たしたら次のフェーズへ"
         />
         <PhasePipeline phases={phases} basePath="/roadmap/" />
       </Box>

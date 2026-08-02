@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import GradientText from "@/components/GradientText";
 import PhasePipeline from "@/components/PhasePipeline";
 import SectionHeading from "@/components/SectionHeading";
+import TagRow from "@/components/TagRow";
 import { currentPhaseId, phases, site, type Phase } from "@/content/data";
 import { fontMono } from "@/theme";
 
@@ -108,9 +109,13 @@ function PhaseDetail({ phase, first }: { phase: Phase; first: boolean }) {
         {phase.title}
       </Typography>
 
-      <Typography sx={{ color: "text.secondary", maxWidth: "66ch", mb: 3 }}>
+      <Typography sx={{ color: "text.secondary", maxWidth: "66ch", mb: 2.5 }}>
         {phase.tagline}
       </Typography>
+
+      <Box sx={{ mb: 3 }}>
+        <TagRow items={phase.keywords} />
+      </Box>
 
       <Stack
         direction="row"
@@ -173,8 +178,9 @@ export default function RoadmapPage() {
         </Typography>
 
         <Typography sx={{ color: "text.secondary", maxWidth: "66ch", fontSize: "1.05rem" }}>
-          6 つのフェーズに分けています。各フェーズには成果物と完了条件があり、
-          条件を満たしたら次へ進みます。時期はあくまで目安です。
+          既存リポジトリの現在地から逆算した 6 フェーズです。各フェーズに成果物と
+          完了条件があり、条件を満たしたら次へ進みます。時期はあくまで目安で、
+          達成できなければ期限を延ばすのではなく範囲を縮めます。
         </Typography>
 
         <Stack direction="row" sx={{ gap: 1.5, flexWrap: "wrap", mt: 4 }}>
@@ -190,7 +196,7 @@ export default function RoadmapPage() {
       </Box>
 
       <Box component="section" sx={{ mt: 10 }}>
-        <SectionHeading index="01" title="全体" note="四半期ごとに見直す" />
+        <SectionHeading index="01" title="全体" note="四半期ごとに見直す / 全 6 フェーズ" />
         <PhasePipeline phases={phases} basePath="" />
       </Box>
 

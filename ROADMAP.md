@@ -22,23 +22,25 @@
 
 | リポジトリ | テーマ | 状態 | ここで得たもの |
 | --- | --- | --- | --- |
-| [`comfyui-vegetable-generator`](https://github.com/gekal-study-ai/comfyui-vegetable-generator) | 画像生成（ComfyUI / SD 1.5） | 稼働中 | ワークフロー API、CPU 推論の性能特性、Docker Compose での再現環境 |
-| [`codex-skills`](https://github.com/gekal-study-ai/codex-skills) | AI エージェントのスキル化 | 稼働中 | 手順を Skill として外部化する設計、Android アイコン監査の自動化 |
-| [`dots-ocr-demo`](https://github.com/gekal-study-ai/dots-ocr-demo) | OCR / 文書理解 | 検証止まり | VLM 系 OCR の実行環境構築 |
-| [`.github`](https://github.com/gekal-study-ai/.github) | ハブ・学習メモ | 本リポジトリ | 全体像の管理 |
+| [`comfyui-vegetable-generator`](https://github.com/gekal-study-ai/comfyui-vegetable-generator) | 画像生成 / Text-to-Image | 稼働中 | ワークフロー API の構造、CPU 推論のステップ数と所要時間の関係、再現可能な実行環境の作り方 |
+| [`codex-skills`](https://github.com/gekal-study-ai/codex-skills) | AI エージェント / Tool use | 稼働中 | 手順をスキルとして切り出す粒度の決め方、アイコン構成の監査の自動化 |
+| [`dots-ocr-demo`](https://github.com/gekal-study-ai/dots-ocr-demo) | 文書理解 / VLM | 検証止まり | VLM 系 OCR の実行環境の立ち上げ |
+| [`.github`](https://github.com/gekal-study-ai/.github) | ハブ / 公開 | 本リポジトリ | 全体像の管理と、静的サイトとしての公開 |
+
+主な技術スタック: ComfyUI・Stable Diffusion 1.5・DOTS OCR・Docker Compose・Agent Skills・Next.js。
 
 ### 現状の強みと弱み
 
 **強み**
 
-- 環境構築力（Docker / Compose / Makefile）が安定している。どのリポジトリも「4 コマンドで動く」水準まで整備されている。
-- 制約を計測して記録する習慣がある（例: Mac Docker で GPU 不可、CPU でのステップ数別実測値）。
+- 推論環境を再現可能な形で組める。どのリポジトリも数コマンドで立ち上がり、依存はコンテナに閉じている。
+- 制約を数値で残す習慣がある。Mac の Docker から GPU が使えないこと、CPU でのステップ数別の所要時間まで実測して記録している。
 
 **弱み（= 次に埋める箇所）**
 
-- **評価がない。** 生成物や OCR 結果の良し悪しを判定する仕組みがどのリポジトリにもない。「動いた」で止まっている。
-- **モデルを使う側に留まっている。** 学習・微調整・量子化などモデル自体を触る経験がない。
-- **LLM アプリの経験が薄い。** エージェント（`codex-skills`）はあるが、RAG・構造化出力・コンテキスト設計といった土台がない。
+- **出力を評価できない。** 生成画像も OCR 結果も、良し悪しを判定する指標がどのリポジトリにもない。「動いた」で観測が止まっている。
+- **推論しかしていない。** 学習・微調整・量子化といった、モデルの重みに触れる工程を通っていない。既存モデルの利用者の位置に留まっている。
+- **LLM アプリの土台がない。** エージェントの入口（`codex-skills`）はあるが、その下にあるはずの構造化出力・埋め込み検索・コンテキスト設計を通っていない。
 - 学習メモが理論の目次のみで、実装と結びついていない。
 
 ---

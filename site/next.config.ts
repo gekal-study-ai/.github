@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  experimental: {
+    // TypeScript 7 は Go 実装で、Next.js が既定で使う旧コンパイラ API を
+    // 持たない。このフラグで型検査を tsc の CLI 経由に切り替える。
+    // TypeScript 6 に戻す場合はこの指定を外してよい。
+    useTypeScriptCli: true,
+  },
 };
 
 export default nextConfig;

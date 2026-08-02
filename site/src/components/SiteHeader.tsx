@@ -7,11 +7,24 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
 import { site } from "@/content/data";
+import { fontMono } from "@/theme";
 
 const navItems = [
   { label: "概要", href: "/" },
   { label: "ロードマップ", href: "/roadmap/" },
+  { label: "GitHub", href: site.orgUrl },
 ];
+
+const navLinkSx = {
+  color: "text.secondary",
+  fontFamily: fontMono,
+  fontSize: "0.8rem",
+  letterSpacing: "0.06em",
+  py: 0.5,
+  borderBottom: "1px solid transparent",
+  transition: "color .15s, border-color .15s",
+  "&:hover": { color: "primary.main", borderBottomColor: "primary.main" },
+} as const;
 
 export default function SiteHeader() {
   return (
@@ -22,65 +35,52 @@ export default function SiteHeader() {
       sx={{
         borderBottom: 1,
         borderColor: "divider",
-        backdropFilter: "blur(8px)",
-        backgroundColor: "color-mix(in srgb, var(--mui-palette-background-default) 88%, transparent)",
+        backdropFilter: "blur(10px)",
+        backgroundColor:
+          "color-mix(in srgb, var(--mui-palette-background-default) 78%, transparent)",
       }}
     >
       <Container>
         <Toolbar
           disableGutters
           sx={{
-            minHeight: 60,
+            minHeight: 62,
             gap: 2,
             flexWrap: "wrap",
             justifyContent: "space-between",
           }}
         >
-          <Link
-            href="/"
-            underline="none"
-            sx={{ fontSize: "0.95rem", fontWeight: 650 }}
-          >
-            gekal-study-ai{" "}
-            <Box component="span" sx={{ color: "text.secondary", fontWeight: 400 }}>
-              / Study Memo for AI
-            </Box>
+          <Link href="/" underline="none">
+            <Stack direction="row" sx={{ alignItems: "center", gap: 1.25 }}>
+              {/* 稼働中を示すインジケータ */}
+              <Box
+                sx={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: "50%",
+                  background: "linear-gradient(120deg, var(--accent-1), var(--accent-2))",
+                  boxShadow: "0 0 8px var(--accent-1)",
+                  flexShrink: 0,
+                }}
+              />
+              <Typography
+                component="span"
+                sx={{ fontFamily: fontMono, fontSize: "0.85rem", fontWeight: 600 }}
+              >
+                gekal-study-ai
+                <Box component="span" sx={{ color: "text.secondary", fontWeight: 400 }}>
+                  /ai
+                </Box>
+              </Typography>
+            </Stack>
           </Link>
 
-          <Stack direction="row" spacing={2.5} sx={{ fontSize: "0.9rem" }}>
+          <Stack direction="row" sx={{ gap: 2.5 }}>
             {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                underline="none"
-                sx={{
-                  color: "text.secondary",
-                  py: 0.5,
-                  borderBottom: "1.5px solid transparent",
-                  transition: "color .15s, border-color .15s",
-                  "&:hover": { color: "text.primary", borderBottomColor: "primary.main" },
-                }}
-              >
-                <Typography variant="body2" component="span">
-                  {item.label}
-                </Typography>
+              <Link key={item.href} href={item.href} underline="none" sx={navLinkSx}>
+                {item.label}
               </Link>
             ))}
-            <Link
-              href={site.orgUrl}
-              underline="none"
-              sx={{
-                color: "text.secondary",
-                py: 0.5,
-                borderBottom: "1.5px solid transparent",
-                transition: "color .15s, border-color .15s",
-                "&:hover": { color: "text.primary", borderBottomColor: "primary.main" },
-              }}
-            >
-              <Typography variant="body2" component="span">
-                GitHub
-              </Typography>
-            </Link>
           </Stack>
         </Toolbar>
       </Container>

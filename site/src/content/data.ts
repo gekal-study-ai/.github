@@ -1,7 +1,7 @@
 export const site = {
   title: "Study Memo for AI by gekal",
   description:
-    "AI を学ぶために作った実験リポジトリ群と、その学習ロードマップ。まず動かす → 制約を測る → わかったことを残す。",
+    "画像生成・文書理解・エージェントを実際に動かしながら AI を学ぶための実験リポジトリ群と、6 フェーズの学習ロードマップ。動かす → 制約を測る → 残す。",
   org: "gekal-study-ai",
   orgUrl: "https://github.com/gekal-study-ai",
   roadmapUrl:
@@ -16,6 +16,8 @@ export type Repo = {
   theme: string;
   description: string;
   status: RepoStatus;
+  /** 使っている主な技術。カードにタグとして並べる */
+  stack: string[];
   learned: string;
   url?: string;
   private?: boolean;
@@ -24,39 +26,43 @@ export type Repo = {
 export const repos: Repo[] = [
   {
     name: "comfyui-vegetable-generator",
-    theme: "画像生成",
+    theme: "画像生成 / Text-to-Image",
     description:
-      "ComfyUI で野菜 EC の商品画像を生成する。Mac の Docker Compose だけで動き、コマンドは 4 つ。",
+      "ComfyUI のワークフローを API から叩き、野菜 EC の商品画像を生成する。Mac の Docker Compose だけで完結し、コマンドは 4 つ。",
     status: "active",
+    stack: ["ComfyUI", "Stable Diffusion 1.5", "Docker Compose", "Python"],
     learned:
-      "ワークフロー API、CPU 推論の性能特性、Docker Compose での再現環境",
+      "ワークフロー API の構造、CPU 推論のステップ数と所要時間の関係、再現可能な実行環境の作り方",
     private: true,
   },
   {
     name: "codex-skills",
-    theme: "AI エージェント",
+    theme: "AI エージェント / Tool use",
     description:
-      "AI エージェントから再利用できるスキル集。Android のランチャーアイコンを作成・監査するスキルを収録。",
+      "AI エージェントから再利用できるスキル集。Android のランチャーアイコンを生成・監査する手順を、エージェントが実行できる形に外部化している。",
     status: "active",
-    learned: "手順を Skill として外部化する設計、アイコン監査の自動化",
+    stack: ["Agent Skills", "Codex", "Android"],
+    learned: "手順をスキルとして切り出す粒度の決め方、アイコン構成の監査の自動化",
     private: true,
   },
   {
     name: "dots-ocr-demo",
-    theme: "文書理解 / OCR",
+    theme: "文書理解 / VLM",
     description:
-      "DOTS OCR を Docker Compose で動かす検証環境。文書画像からのテキスト抽出を試す。",
+      "DOTS OCR を Docker Compose で動かす検証環境。文書画像からのテキスト抽出を試す。精度の測定には未着手。",
     status: "paused",
-    learned: "VLM 系 OCR の実行環境構築",
+    stack: ["DOTS OCR", "VLM", "Docker Compose"],
+    learned: "VLM 系 OCR の実行環境の立ち上げ",
     private: true,
   },
   {
     name: ".github",
-    theme: "ハブ",
+    theme: "ハブ / 公開",
     description:
-      "Organization のハブ。学習ロードマップ、学習ノート、このサイトのソースを置いている。",
+      "Organization のハブ。学習ロードマップ、学習ノート、そしてこのサイトのソースを置いている。",
     status: "hub",
-    learned: "全体像の管理",
+    stack: ["Next.js", "MUI", "GitHub Actions", "GitHub Pages"],
+    learned: "全体像の管理と、静的サイトとしての公開",
     url: "https://github.com/gekal-study-ai/.github",
   },
 ];
@@ -69,24 +75,27 @@ export const statusLabel: Record<RepoStatus, string> = {
 };
 
 export const strengths = [
-  "環境構築力が安定している。どのリポジトリも「数コマンドで動く」水準まで整備されている。",
-  "制約を計測して記録する習慣がある。Mac Docker で GPU が使えないこと、CPU でのステップ数別の実測値まで残している。",
+  "推論環境を再現可能な形で組める。どのリポジトリも数コマンドで立ち上がり、依存はコンテナに閉じている。",
+  "制約を数値で残す習慣がある。Mac の Docker から GPU が使えないこと、CPU でのステップ数別の所要時間まで実測して記録している。",
 ];
 
 export const weaknesses = [
   {
-    title: "評価がない",
-    body: "生成物や OCR 結果の良し悪しを判定する仕組みがどのリポジトリにもない。「動いた」で止まっている。",
+    title: "出力を評価できない",
+    body: "生成画像も OCR 結果も、良し悪しを判定する指標がどのリポジトリにもない。「動いた」で観測が止まっている。",
   },
   {
-    title: "モデルを使う側に留まっている",
-    body: "学習・微調整・量子化など、モデル自体に手を入れた経験がない。",
+    title: "推論しかしていない",
+    body: "学習・微調整・量子化といった、モデルの重みに触れる工程を通っていない。既存モデルの利用者の位置に留まっている。",
   },
   {
-    title: "LLM アプリの経験が薄い",
-    body: "エージェントの入口はあるが、RAG・構造化出力・コンテキスト設計といった土台がない。",
+    title: "LLM アプリの土台がない",
+    body: "エージェントの入口はあるが、その下にあるはずの構造化出力・埋め込み検索・コンテキスト設計を通っていない。",
   },
 ];
+
+/** いま取り組んでいるフェーズ。パイプライン上で強調表示する */
+export const currentPhaseId = 0;
 
 export type Phase = {
   id: number;
@@ -94,6 +103,8 @@ export type Phase = {
   tagline: string;
   period: string;
   newRepo: string | null;
+  /** そのフェーズで扱う技術用語。タグとして並べる */
+  keywords: string[];
   topics: string[];
   deliverables: string[];
   criteria: string[];
@@ -106,6 +117,7 @@ export const phases: Phase[] = [
     tagline: "既に手を動かして知っていることを、説明できる形にする。",
     period: "2026 Q3",
     newRepo: null,
+    keywords: ["Transformer", "Attention", "Diffusion", "VLM", "評価指標"],
     topics: [
       "Transformer の構造（Attention、位置エンコーディング、Encoder / Decoder の役割分担）",
       "Diffusion モデルの原理 — 毎回指定している steps / cfg / sampler が何をしているのか",
@@ -129,6 +141,7 @@ export const phases: Phase[] = [
     tagline: "「動いた」から「良し悪しを判定できる」へ。最大の弱点を埋める。",
     period: "2026 Q3–Q4",
     newRepo: "image-eval-lab",
+    keywords: ["CLIP Score", "CER", "A/B 比較", "seed 固定", "再現性"],
     topics: [
       "画像生成の定量評価（CLIP Score、美的スコア、参照画像との類似度）",
       "OCR の精度評価（文字誤り率 CER、レイアウト再現の評価）",
@@ -152,6 +165,7 @@ export const phases: Phase[] = [
     tagline: "エージェントを作る前に、その土台となる要素を単体で押さえる。",
     period: "2026 Q4",
     newRepo: "rag-playground",
+    keywords: ["RAG", "Embeddings", "JSON Schema", "Tool 定義", "LLM-as-a-Judge"],
     topics: [
       "プロンプト設計とコンテキスト設計の違い — 何を渡すかの方が、どう書くかより効く",
       "構造化出力（JSON Schema、Tool 定義による型の強制）",
@@ -175,6 +189,7 @@ export const phases: Phase[] = [
     tagline: "単発の応答から、道具を使って多段で動く仕組みへ。",
     period: "2027 Q1",
     newRepo: "mcp-servers",
+    keywords: ["Tool use", "MCP", "サブエージェント", "成功率", "権限設計"],
     topics: [
       "Tool use の設計 — ツールの粒度、説明文の書き方、失敗時の扱い",
       "MCP（Model Context Protocol）でのサーバー自作",
@@ -199,6 +214,7 @@ export const phases: Phase[] = [
     tagline: "ローカルの Mac から出て、性能とコストを扱えるようにする。",
     period: "2027 Q1–Q2",
     newRepo: "inference-bench",
+    keywords: ["量子化", "GGUF", "vLLM", "VRAM", "レイテンシ"],
     topics: [
       "量子化（GGUF、AWQ、GPTQ）と精度・速度・メモリのトレードオフ",
       "推論サーバー（vLLM、Ollama、llama.cpp）の使い分け",
@@ -223,6 +239,7 @@ export const phases: Phase[] = [
     tagline: "ここまでは既存モデルの利用者。ここからモデル自体に手を入れる。",
     period: "2027 Q2 以降",
     newRepo: "finetune-lab",
+    keywords: ["LoRA", "QLoRA", "データセット", "損失曲線", "蒸留"],
     topics: [
       "LoRA / QLoRA によるファインチューニング",
       "データセット構築 — 収集、クリーニング、アノテーション、分割",

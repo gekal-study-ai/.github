@@ -1,0 +1,57 @@
+version: 2
+
+# このリポジトリ (.github) 内の依存だけが対象。
+# Dependabot の設定は Organization 全体には波及しないため、
+# 他のリポジトリで使う場合はそれぞれに dependabot.yml を置くこと。
+updates:
+  # ---------------------------------------------------------------
+  # 公開サイト (site/) の npm 依存
+  # ---------------------------------------------------------------
+  - package-ecosystem: npm
+    directory: /site
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Asia/Tokyo
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+    labels:
+      - dependencies
+    groups:
+      # Next.js と React は足並みを揃える必要があるため 1 つの PR にまとめる
+      next-react:
+        patterns:
+          - next
+          - react
+          - react-dom
+          - "@types/react"
+          - "@types/react-dom"
+      # 残りの minor / patch はまとめる。major だけ個別 PR にして影響を確認する
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+
+  # ---------------------------------------------------------------
+  # GitHub Actions (.github/workflows/)
+  # ---------------------------------------------------------------
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Asia/Tokyo
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(actions)"
+    labels:
+      - dependencies
+      - github-actions
+    groups:
+      actions:
+        patterns:
+          - "*"

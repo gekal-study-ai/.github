@@ -3,8 +3,14 @@ node_modules/
 npm-debug.log
 yarn-debug.log
 yarn-error.log
-package-lock.json
 yarn.lock
+# package-lock.json は CI の npm ci で必要なため追跡する
+
+# Next.js (site/)
+.next/
+out/
+next-env.d.ts
+.vercel
 
 # Python関連
 __pycache__/

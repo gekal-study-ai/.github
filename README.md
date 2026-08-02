@@ -5,6 +5,9 @@
 - **[ROADMAP.md](ROADMAP.md)** — 学習ロードマップ（フェーズ・成果物・完了条件）
 - **[profile/README.md](profile/README.md)** — Organization の公開プロフィールページ
 - **[notes/](notes/)** — 学習ノート
+- **[site/](site/)** — 公開サイトのソース（Next.js 静的サイト）
+
+公開サイト: https://ai-study-workshop.gekal.cn
 
 ## リポジトリ一覧
 

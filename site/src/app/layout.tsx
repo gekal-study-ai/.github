@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
+
+import SiteFooter from "@/components/SiteFooter";
+import SiteHeader from "@/components/SiteHeader";
 import { site } from "@/content/data";
-import "./globals.css";
+import theme from "@/theme";
 
 export const metadata: Metadata = {
   title: {
@@ -20,34 +26,22 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ja">
+    <html lang="ja" suppressHydrationWarning>
       <body>
-        <div className="shell">
-          <header className="siteHeader">
-            <div className="wrap inner">
-              <Link href="/" className="brand">
-                gekal-study-ai <span>/ Study Memo for AI</span>
-              </Link>
-              <nav className="nav">
-                <Link href="/">概要</Link>
-                <Link href="/roadmap/">ロードマップ</Link>
-                <a href={site.orgUrl}>GitHub</a>
-              </nav>
-            </div>
-          </header>
-
-          <main>{children}</main>
-
-          <footer className="siteFooter">
-            <div className="wrap inner">
-              <span>最終更新 {site.updatedAt}</span>
-              <span>
-                ソース:{" "}
-                <a href={`${site.orgUrl}/.github`}>gekal-study-ai/.github</a>
-              </span>
-            </div>
-          </footer>
-        </div>
+        <AppRouterCacheProvider options={{ key: "mui" }}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Box
+              sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}
+            >
+              <SiteHeader />
+              <Box component="main" sx={{ flex: 1 }}>
+                {children}
+              </Box>
+              <SiteFooter />
+            </Box>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

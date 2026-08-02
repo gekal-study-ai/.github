@@ -11,6 +11,8 @@ yarn.lock
 out/
 next-env.d.ts
 .vercel
+# TypeScript の増分ビルド情報
+*.tsbuildinfo
 
 # Python関連
 __pycache__/

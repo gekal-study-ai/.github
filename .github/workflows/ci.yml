@@ -1,0 +1,45 @@
+name: CI
+
+# main へ向いた PR すべてで走らせる。
+# paths フィルタは付けないこと — 必須チェックに指定した際、
+# 対象外のファイルだけを触った PR でチェックが永久に pending になり
+# マージできなくなるため。
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-site:
+    name: build-site
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - run: npm ci
+
+      # next build が TypeScript の型検査も行う
+      - run: npm run build
+
+      - name: 静的書き出しの中身を確認する
+        run: |
+          test -f out/index.html
+          test -f out/roadmap/index.html
+          test -f out/CNAME
+          test -f out/.nojekyll

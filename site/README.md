@@ -52,6 +52,15 @@ UI は [MUI](https://mui.com/)（Material UI v9）を使っています。
 - **背景は `GridBackdrop`。** ドットグリッドと 2 つの光のにじみを固定配置しています。`body` を透過させてこれを見せているため、`body` に背景色を付けると隠れます
 - **フェーズは 1 本の経路として描きます。** `PhasePipeline` が縦線とノードを描画し、`data.ts` の `currentPhaseId` と一致するフェーズだけ光らせます。**進捗を進めるときはこの定数を変えてください**
 
+### TypeScript 7 について
+
+TypeScript 7 は Go 実装で、Next.js が既定で使う旧コンパイラ API を持ちません。
+そのため `next.config.ts` で `experimental.useTypeScriptCli` を有効にし、
+型検査を `tsc` の CLI 経由に切り替えています。これがないとビルドが落ちます。
+
+型検査自体は従来どおり効きます（`next build` が型エラーを検出して失敗します）。
+TypeScript 6 系に戻す場合は、このフラグを外して構いません。
+
 ### MUI を使ううえでの注意
 
 - **ライト / ダークは OS 設定に追従します。** テーマの `cssVariables: { colorSchemeSelector: "media" }` によるもので、切り替え UI は持っていません

@@ -9,9 +9,10 @@ import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
-import PhaseList from "@/components/PhaseList";
+import GradientText from "@/components/GradientText";
+import PhasePipeline from "@/components/PhasePipeline";
 import SectionHeading from "@/components/SectionHeading";
-import { phases, site, type Phase } from "@/content/data";
+import { currentPhaseId, phases, site, type Phase } from "@/content/data";
 import { fontMono } from "@/theme";
 
 export const metadata: Metadata = {
@@ -31,7 +32,11 @@ function ItemBlock({
 }) {
   return (
     <Box>
-      <Typography variant="overline" component="h4" sx={{ color: "text.secondary", m: 0, mb: 1.75 }}>
+      <Typography
+        variant="overline"
+        component="h4"
+        sx={{ color: checkbox ? "primary.main" : "text.secondary", m: 0, mb: 1.75 }}
+      >
         {title}
       </Typography>
       <Stack component="ul" sx={{ gap: 1.4, listStyle: "none", m: 0, p: 0 }}>
@@ -39,12 +44,12 @@ function ItemBlock({
           <Stack key={item} component="li" direction="row" sx={{ gap: 1 }}>
             {checkbox ? (
               <CheckBoxOutlineBlankIcon
-                sx={{ fontSize: "1rem", mt: "0.35em", color: "text.secondary", flexShrink: 0 }}
+                sx={{ fontSize: "1rem", mt: "0.35em", color: "primary.main", flexShrink: 0 }}
               />
             ) : (
               <Box
                 component="span"
-                sx={{ color: "text.secondary", flexShrink: 0, lineHeight: 1.8 }}
+                sx={{ color: "text.secondary", flexShrink: 0, lineHeight: 1.8, opacity: 0.6 }}
               >
                 –
               </Box>
@@ -60,31 +65,50 @@ function ItemBlock({
 }
 
 function PhaseDetail({ phase, first }: { phase: Phase; first: boolean }) {
+  const current = phase.id === currentPhaseId;
+
   return (
     <Box
       component="article"
       id={`phase-${phase.id}`}
       sx={{
+        position: "relative",
         borderTop: first ? 0 : 1,
         borderColor: "divider",
         pt: first ? 0 : 5,
         mt: first ? 0 : 7,
       }}
     >
-      <Stack direction="row" sx={{ gap: 1.75, alignItems: "baseline", flexWrap: "wrap", mb: 1.25 }}>
+      <Stack
+        direction="row"
+        sx={{ gap: 1.75, alignItems: "center", flexWrap: "wrap", mb: 1.25 }}
+      >
         <Chip
-          label={`PHASE ${phase.id}`}
+          label={`PHASE ${String(phase.id).padStart(2, "0")}`}
           size="small"
           variant="outlined"
           color="primary"
-          sx={{ fontFamily: fontMono, fontSize: "0.72rem" }}
+          sx={{ fontSize: "0.68rem" }}
         />
-        <Typography variant="h2" component="h2" sx={{ fontSize: "1.5rem" }}>
-          {phase.title}
-        </Typography>
+        {current && (
+          <Chip
+            label="NOW"
+            size="small"
+            color="primary"
+            sx={{
+              background: "linear-gradient(120deg, var(--accent-1), var(--accent-2))",
+              color: "#fff",
+              boxShadow: "0 0 12px var(--accent-1)",
+            }}
+          />
+        )}
       </Stack>
 
-      <Typography sx={{ color: "text.secondary", maxWidth: "68ch", mb: 3 }}>
+      <Typography variant="h2" component="h2" sx={{ fontSize: "1.55rem", mb: 1 }}>
+        {phase.title}
+      </Typography>
+
+      <Typography sx={{ color: "text.secondary", maxWidth: "66ch", mb: 3 }}>
         {phase.tagline}
       </Typography>
 
@@ -98,24 +122,25 @@ function PhaseDetail({ phase, first }: { phase: Phase; first: boolean }) {
           borderBottom: "1px dashed",
           borderColor: "divider",
           color: "text.secondary",
+          fontFamily: fontMono,
         }}
       >
-        <Typography variant="body2">
-          <Box component="b" sx={{ mr: 1, fontWeight: 650 }}>
-            目安時期
+        <Typography variant="body2" sx={{ fontFamily: fontMono, fontSize: "0.8rem" }}>
+          <Box component="span" sx={{ opacity: 0.65, mr: 1 }}>
+            period
           </Box>
           {phase.period}
         </Typography>
-        <Typography variant="body2">
-          <Box component="b" sx={{ mr: 1, fontWeight: 650 }}>
-            新規リポジトリ
+        <Typography variant="body2" sx={{ fontFamily: fontMono, fontSize: "0.8rem" }}>
+          <Box component="span" sx={{ opacity: 0.65, mr: 1 }}>
+            new repo
           </Box>
           {phase.newRepo ? (
-            <Box component="code" sx={{ fontFamily: fontMono, fontSize: "0.88em" }}>
+            <Box component="span" sx={{ color: "primary.main" }}>
               {phase.newRepo}
             </Box>
           ) : (
-            "なし"
+            "—"
           )}
         </Typography>
       </Stack>
@@ -138,15 +163,21 @@ function PhaseDetail({ phase, first }: { phase: Phase; first: boolean }) {
 export default function RoadmapPage() {
   return (
     <Container>
-      <Box component="section" sx={{ pt: 9, pb: 1 }}>
-        <Typography variant="h1" component="h1" gutterBottom>
-          学習ロードマップ
+      <Box component="section" sx={{ pt: { xs: 8, sm: 11 }, pb: 1 }}>
+        <Typography variant="overline" sx={{ color: "primary.main", display: "block", mb: 1.5 }}>
+          roadmap — {phases.length} phases
         </Typography>
-        <Typography sx={{ color: "text.secondary", maxWidth: "68ch", fontSize: "1.05rem" }}>
+
+        <Typography variant="h1" component="h1" gutterBottom>
+          学習<GradientText>ロードマップ</GradientText>
+        </Typography>
+
+        <Typography sx={{ color: "text.secondary", maxWidth: "66ch", fontSize: "1.05rem" }}>
           6 つのフェーズに分けています。各フェーズには成果物と完了条件があり、
           条件を満たしたら次へ進みます。時期はあくまで目安です。
         </Typography>
-        <Stack direction="row" sx={{ gap: 1.5, flexWrap: "wrap", mt: 3.5 }}>
+
+        <Stack direction="row" sx={{ gap: 1.5, flexWrap: "wrap", mt: 4 }}>
           <Button
             href={site.roadmapUrl}
             variant="outlined"
@@ -158,12 +189,12 @@ export default function RoadmapPage() {
         </Stack>
       </Box>
 
-      <Box component="section" sx={{ mt: 9 }}>
-        <SectionHeading title="全体" note="四半期ごとに見直す" />
-        <PhaseList phases={phases} basePath="" />
+      <Box component="section" sx={{ mt: 10 }}>
+        <SectionHeading index="01" title="全体" note="四半期ごとに見直す" />
+        <PhasePipeline phases={phases} basePath="" />
       </Box>
 
-      <Box component="section" sx={{ mt: 9 }}>
+      <Box component="section" sx={{ mt: 10 }}>
         {phases.map((phase, i) => (
           <PhaseDetail key={phase.id} phase={phase} first={i === 0} />
         ))}

@@ -4,6 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
 
+import GridBackdrop from "@/components/GridBackdrop";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
 import { site } from "@/content/data";
@@ -31,6 +32,7 @@ export default function RootLayout({
         <AppRouterCacheProvider options={{ key: "mui" }}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
+            <GridBackdrop />
             <Box
               sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}
             >

@@ -88,6 +88,9 @@ export const weaknesses = [
   },
 ];
 
+/** いま取り組んでいるフェーズ。パイプライン上で強調表示する */
+export const currentPhaseId = 0;
+
 export type Phase = {
   id: number;
   title: string;

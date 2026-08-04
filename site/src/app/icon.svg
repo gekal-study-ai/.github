@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="gekal-study-ai">
+  <title>gekal-study-ai</title>
+  <defs>
+    <linearGradient id="accent" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee" />
+      <stop offset="1" stop-color="#a78bfa" />
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".24" />
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <rect width="64" height="64" rx="15" fill="url(#accent)" />
+  <rect width="64" height="64" rx="15" fill="url(#sheen)" />
+
+  <!-- 学習フェーズの経路。到達点のノードだけを強調する。
+       16px でも潰れないよう、縦一列ではなく対角に振ってある。 -->
+  <path
+    d="M16 47 L32 32 L47 18"
+    fill="none"
+    stroke="#fff"
+    stroke-opacity=".5"
+    stroke-width="5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <circle cx="16" cy="47" r="4.6" fill="#fff" fill-opacity=".72" />
+  <circle cx="32" cy="32" r="4.6" fill="#fff" fill-opacity=".86" />
+  <circle cx="47" cy="18" r="9" fill="#fff" />
+</svg>

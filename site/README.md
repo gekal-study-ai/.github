@@ -52,6 +52,31 @@ UI は [MUI](https://mui.com/)（Material UI v9）を使っています。
 - **背景は `GridBackdrop`。** ドットグリッドと 2 つの光のにじみを固定配置しています。`body` を透過させてこれを見せているため、`body` に背景色を付けると隠れます
 - **フェーズは 1 本の経路として描きます。** `PhasePipeline` が縦線とノードを描画し、`data.ts` の `currentPhaseId` と一致するフェーズだけ光らせます。**進捗を進めるときはこの定数を変えてください**
 
+### アイコン
+
+`src/app/` に置いた 3 つのファイルを Next.js が自動で `<link>` タグにします。
+
+| ファイル | 用途 |
+| --- | --- |
+| `icon.svg` | 主。**これが原本** |
+| `icon.png` (96px) | SVG ファビコン非対応ブラウザ向けの控え |
+| `apple-icon.png` (180px) | iOS のホーム画面用。iOS 側で角を丸めるため角丸なしの版から起こす |
+
+意匠はロードマップのパイプライン（経路と、到達点で光るノード）です。
+**16px での判別を最優先**にしているので、要素を増やしたり縦一列に並べたりしないこと
+（縦一列だと小サイズで感嘆符に見えます）。
+
+`icon.svg` を編集したら、PNG を作り直します。
+
+```bash
+cd site/src/app
+sed 's/ rx="15"//g' icon.svg > /tmp/icon-square.svg
+rsvg-convert -w 180 -h 180 /tmp/icon-square.svg -o apple-icon.png
+rsvg-convert -w 96 -h 96 icon.svg -o icon.png
+```
+
+`rsvg-convert` は `brew install librsvg` で入ります。
+
 ### TypeScript 7 について
 
 TypeScript 7 は Go 実装で、Next.js が既定で使う旧コンパイラ API を持ちません。

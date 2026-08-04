@@ -11,6 +11,7 @@ import { fontMono } from "@/theme";
 
 const navItems = [
   { label: "概要", href: "/" },
+  { label: "いま学ぶこと", href: "/learn/" },
   { label: "ロードマップ", href: "/roadmap/" },
   { label: "GitHub", href: site.orgUrl },
 ];

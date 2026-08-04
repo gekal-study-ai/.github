@@ -117,6 +117,14 @@ function PhaseDetail({ phase, first }: { phase: Phase; first: boolean }) {
         <TagRow items={phase.keywords} />
       </Box>
 
+      {current && (
+        <Box sx={{ mb: 3 }}>
+          <Button href="/learn/" variant="outlined" color="inherit" size="small">
+            このフェーズで学ぶことを見る →
+          </Button>
+        </Box>
+      )}
+
       <Stack
         direction="row"
         sx={{

@@ -6,7 +6,7 @@ export const site = {
   orgUrl: "https://github.com/gekal-study-ai",
   roadmapUrl:
     "https://github.com/gekal-study-ai/.github/blob/main/ROADMAP.md",
-  updatedAt: "2026-08-02",
+  updatedAt: "2026-08-04",
 } as const;
 
 export type RepoStatus = "active" | "paused" | "hub" | "planned";

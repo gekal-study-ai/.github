@@ -84,6 +84,9 @@ graph LR
 
 このフェーズだけは新しいものを作りません。既存 3 リポジトリで暗黙的に使った知識を明文化します。
 
+**参考資料つきの学習ガイドを用意しています → <https://ai-study-workshop.gekal.cn/learn/>**
+（何をどの順で学ぶか、各項目の参考資料 21 件つき）
+
 ### 学ぶこと
 
 - Transformer の構造（Attention、位置エンコーディング、Encoder / Decoder の役割分担）

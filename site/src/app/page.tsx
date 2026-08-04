@@ -220,6 +220,15 @@ export default function Home() {
             </Stack>
           </Grid>
         </Grid>
+
+        <Box sx={{ mt: 4, pt: 3, borderTop: 1, borderColor: "divider" }}>
+          <Button href="/learn/" variant="contained" endIcon={<ArrowForwardIcon />}>
+            いま学ぶことを見る
+          </Button>
+          <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
+            現在地は Phase 0「基礎の言語化」です。何をどの順で学ぶか、参考資料つきでまとめています。
+          </Typography>
+        </Box>
       </Box>
 
       <Box component="section" sx={{ mt: 10 }}>

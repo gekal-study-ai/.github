@@ -4,6 +4,9 @@
 
 - **[ROADMAP.md](ROADMAP.md)** — 学習ロードマップ（フェーズ・成果物・完了条件）
 - **[profile/README.md](profile/README.md)** — Organization の公開プロフィールページ
+- **[GOVERNANCE.md](GOVERNANCE.md)** — GitHub Organizationとリポジトリの共通運用
+- **[SECURITY.md](SECURITY.md)** — 脆弱性の非公開報告方法
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** — IssueとPull Requestの進め方
 - **[notes/](notes/)** — 学習ノート
 - **[site/](site/)** — 公開サイトのソース（Next.js 静的サイト）
 

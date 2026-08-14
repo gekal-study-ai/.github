@@ -13,13 +13,21 @@ export const resourceKindLabel: Record<ResourceKind, string> = {
   book: "書籍",
 };
 
+export type ResourceLang = "ja" | "en" | "zh";
+
+export const resourceLangLabel: Record<ResourceLang, string> = {
+  ja: "JA",
+  en: "EN",
+  zh: "ZH",
+};
+
 export type Resource = {
   title: string;
   author: string;
   /** 書籍などリンクが無いものは省略する */
   url?: string;
   kind: ResourceKind;
-  lang: "ja" | "en";
+  lang: ResourceLang;
   /** これを読むと何がわかるか */
   note: string;
 };
@@ -37,7 +45,7 @@ export type StudyItem = {
 };
 
 export const studyIntro =
-  "Phase 0 は新しいものを作らず、既に動かして知っていることを説明できる形にする段階です。下の 4 つは、いま手元にあるリポジトリを説明するために必要な順に並べています。上から順に進めれば、後の項目ほど前の項目を前提にできます。";
+  "Phase 0 は新しいものを作らず、既に動かして知っていることを説明できる形にする段階です。下の 4 つは、いま手元にあるリポジトリを説明するために必要な順に並べています。上から順に進めれば、後の項目ほど前の項目を前提にできます。参考資料は日本語・英語・中国語を混ぜてあります。英語の原典が重いときは、同じ内容を扱う中国語の教材から入っても構いません。";
 
 export const studyItems: StudyItem[] = [
   {
@@ -88,6 +96,30 @@ export const studyItems: StudyItem[] = [
         kind: "article",
         lang: "en",
         note: "論文の各段落に実装を並べたもの。原典で詰まったら参照する。",
+      },
+      {
+        title: "《动手学深度学习》注意力机制与 Transformer",
+        author: "李沐 ほか",
+        url: "https://zh.d2l.ai/chapter_attention-mechanisms-and-transformers/transformer.html",
+        kind: "docs",
+        lang: "zh",
+        note: "中文の定番教材。数式と実装が並んでいるので、図解の次に読むならこれ。",
+      },
+      {
+        title: "Transformer论文逐段精读【论文精读】",
+        author: "李沐",
+        url: "https://www.bilibili.com/video/BV1pu411o7BE",
+        kind: "video",
+        lang: "zh",
+        note: "原論文を 1 段ずつ読み下す動画。英語の原典が重いときの入口になる。",
+      },
+      {
+        title: "Transformers快速入门",
+        author: "小昇",
+        url: "https://transformers.run/",
+        kind: "docs",
+        lang: "zh",
+        note: "実装寄りの中文教材。Hugging Face を触りながら仕組みを追える。",
       },
     ],
   },
@@ -156,6 +188,14 @@ export const studyItems: StudyItem[] = [
         lang: "en",
         note: "ワークフローの各ノードが上のどの工程に当たるかの対応づけ用。",
       },
+      {
+        title: "生成扩散模型漫谈（一）：DDPM = 拆楼 + 建楼",
+        author: "苏剑林（科学空间）",
+        url: "https://kexue.fm/archives/9119",
+        kind: "article",
+        lang: "zh",
+        note: "中文の拡散モデル解説では随一の連載。比喩から数式へ段階的に進む。",
+      },
     ],
   },
   {
@@ -198,6 +238,22 @@ export const studyItems: StudyItem[] = [
         kind: "paper",
         lang: "en",
         note: "Donut の論文。OCR を介さず文書を直接読む系統の出発点。",
+      },
+      {
+        title: "大模型基础",
+        author: "Datawhale",
+        url: "https://github.com/datawhalechina/so-large-lm",
+        kind: "docs",
+        lang: "zh",
+        note: "大規模モデル全般の中文教材。VLM 専門ではないが前提知識をまとめて埋められる。",
+      },
+      {
+        title: "机器学习 2023 春（生成式 AI を含む）",
+        author: "李宏毅",
+        url: "https://speech.ee.ntu.edu.tw/~hylee/ml/2023-spring.php",
+        kind: "video",
+        lang: "zh",
+        note: "スライドと講義動画が公開されている。生成モデル全般を中国語で追える。",
       },
     ],
   },
@@ -248,6 +304,22 @@ export const studyItems: StudyItem[] = [
         kind: "book",
         lang: "ja",
         note: "手元にある書籍。評価と検証の章を辞書的に引く用途で十分です。",
+      },
+      {
+        title: "《动手学深度学习》",
+        author: "李沐 ほか",
+        url: "https://zh.d2l.ai/",
+        kind: "docs",
+        lang: "zh",
+        note: "過学習・モデル選択・検証の章が該当。中文で通読できる定番教材。",
+      },
+      {
+        title: "LeeDL Tutorial（李宏毅深度学习教程）",
+        author: "Datawhale",
+        url: "https://datawhalechina.github.io/leedl-tutorial/",
+        kind: "docs",
+        lang: "zh",
+        note: "李宏毅の講義を中文で書き起こした教材。学習の評価まわりの説明が丁寧。",
       },
     ],
   },

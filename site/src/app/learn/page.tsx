@@ -15,6 +15,7 @@ import TagRow from "@/components/TagRow";
 import { currentPhaseId, phases } from "@/content/data";
 import {
   resourceKindLabel,
+  resourceLangLabel,
   studyIntro,
   studyItems,
   studyOrder,
@@ -73,6 +74,19 @@ function ResourceRow({ resource }: { resource: Resource }) {
           }}
         >
           {resourceKindLabel[resource.kind]}
+        </Box>
+        <Box
+          component="span"
+          sx={{
+            fontFamily: fontMono,
+            fontSize: "0.62rem",
+            letterSpacing: "0.1em",
+            color: "text.secondary",
+            opacity: 0.85,
+            flexShrink: 0,
+          }}
+        >
+          {resourceLangLabel[resource.lang]}
         </Box>
         <Typography variant="body2" component="span" sx={{ minWidth: 0 }}>
           {title}
@@ -177,7 +191,13 @@ function StudyBlock({ item, index }: { item: StudyItem; index: number }) {
 }
 
 export default function LearnPage() {
-  const totalResources = studyItems.reduce((n, i) => n + i.resources.length, 0);
+  const allResources = studyItems.flatMap((i) => i.resources);
+  const totalResources = allResources.length;
+  const langBreakdown = (["ja", "en", "zh"] as const)
+    .map((l) => ({ l, n: allResources.filter((r) => r.lang === l).length }))
+    .filter((x) => x.n > 0)
+    .map((x) => `${resourceLangLabel[x.l]} ${x.n}`)
+    .join(" / ");
 
   return (
     <Container>
@@ -324,7 +344,11 @@ export default function LearnPage() {
       </Box>
 
       <Box component="section" sx={{ mt: 10 }}>
-        <SectionHeading index="03" title="項目ごとの資料" note={`全 ${totalResources} 件`} />
+        <SectionHeading
+          index="03"
+          title="項目ごとの資料"
+          note={`全 ${totalResources} 件 — ${langBreakdown}`}
+        />
         {studyItems.map((item, i) => (
           <StudyBlock key={item.id} item={item} index={i} />
         ))}

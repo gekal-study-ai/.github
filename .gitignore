@@ -14,6 +14,10 @@ next-env.d.ts
 # TypeScript の増分ビルド情報
 *.tsbuildinfo
 
+# 演習の生成物（画像・図・一覧表）
+exercises/**/out/
+exercises/**/*.svg
+
 # Python関連
 __pycache__/
 *.py[cod]
